@@ -1,8 +1,10 @@
-const {Router} = require('express');
+const { Router } = require("express");
 const router = Router();
+const nucleo = require("./Nucleo");
 
-router.get("/",(req,res)=>{
-    res.send("hola aqui estamos");
-})
+router.get("/", (req, res) => {
+  res.send("hola aqui estamos");
+});
+router.use("/nucleo", nucleo);
 
-module.exports = router
+module.exports = router;
