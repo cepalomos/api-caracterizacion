@@ -1,5 +1,9 @@
 const { response } = require("../response/response");
-const { allNucleoDb, createNucleoDb } = require("../services/Nucleo");
+const {
+  allNucleoDb,
+  createNucleoDb,
+  optionsNucleoDb,
+} = require("../services/Nucleo");
 
 const allNucleo = (req, res, next) => {
   const { zona, corregimiento, vereda } = req.query;
@@ -30,4 +34,21 @@ const createNucleo = (req, res, next) => {
     });
 };
 
-module.exports = { allNucleo, createNucleo };
+const optionsNucleo = (req, res, next) => {
+  try {
+    const options = optionsNucleoDb();
+    return response(
+      req,
+      res,
+      next,
+      200,
+      "opciones de campos de base de datos",
+      options
+    );
+  } catch (error) {
+    console.error(error);
+    next({ status: 500, message: "Error desconocido en la base datos" });
+  }
+};
+
+module.exports = { allNucleo, createNucleo, optionsNucleo };
