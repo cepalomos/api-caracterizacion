@@ -1,7 +1,7 @@
 const { Router } = require("express");
-const { allNucleo } = require("../controllers/Nucleo");
+const { allNucleo, createNucleo } = require("../controllers/Nucleo");
 const router = Router();
 
-router.route("/").get(allNucleo);
+router.route("/").get(allNucleo).post(createNucleo);
 
 module.exports = router;

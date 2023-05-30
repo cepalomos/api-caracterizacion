@@ -1,5 +1,5 @@
 const { response } = require("../response/response");
-const { allNucleoDb } = require("../services/Nucleo");
+const { allNucleoDb, createNucleoDb } = require("../services/Nucleo");
 
 const allNucleo = (req, res, next) => {
   const { zona, corregimiento, vereda } = req.query;
@@ -18,4 +18,16 @@ const allNucleo = (req, res, next) => {
     });
 };
 
-module.exports = { allNucleo };
+const createNucleo = (req, res, next) => {
+  const data = req.body;
+  return createNucleoDb(data)
+    .then((nucleo) =>
+      response(req, res, next, 201, "Nucleo creado con exito", nucleo)
+    )
+    .catch((error) => {
+      console.error(error);
+      next(error);
+    });
+};
+
+module.exports = { allNucleo, createNucleo };

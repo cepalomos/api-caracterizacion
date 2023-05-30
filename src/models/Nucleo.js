@@ -100,7 +100,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        isIn: [["Alcantarillado", "pozo septico", "ninguna de las anteriores"]],
+        isIn: [["alcantarillado", "pozo septico", "ninguna de las anteriores"]],
       },
     },
     preAlimentos: {
