@@ -1,13 +1,17 @@
 const { Nucleo } = require("../db");
 
-const allNucleoDb = (zona, corregimiento, vereda = "ninguna") => {
+const allNucleoDb = (
+  zonaParam,
+  corregimientoParam,
+  veredaParam = "ninguna"
+) => {
   return Nucleo.findAll({
-    attributes: ["id", "direccion"],
     where: {
-      zona: zona,
-      corregimiento: corregimiento,
-      vereda: vereda,
+      zona: zonaParam,
+      corregimiento: corregimientoParam,
+      vereda: veredaParam,
     },
+    attributes: ["id", "direccion"],
   });
 };
 

@@ -27,6 +27,7 @@ module.exports = (sequelize) => {
     direccion: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     vivienda: {
       type: DataTypes.STRING,

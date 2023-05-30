@@ -5,7 +5,7 @@ const allNucleo = (req, res, next) => {
   const { zona, corregimiento, vereda } = req.query;
   return allNucleoDb(zona, corregimiento, vereda)
     .then((nucleos) => {
-      if (!nucleos.legth) {
+      if (!nucleos.length) {
         throw { status: 404, message: "No hay datos en la base de datos" };
       }
       response(req, res, next, 200, "Se encontraron datos", nucleos);
