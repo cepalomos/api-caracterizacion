@@ -3,6 +3,8 @@ const {
   allNucleoDb,
   createNucleoDb,
   optionsNucleoDb,
+  updateNucleoDb,
+  deleteNucleoDb,
 } = require("../services/Nucleo");
 
 const allNucleo = (req, res, next) => {
@@ -51,4 +53,34 @@ const optionsNucleo = (req, res, next) => {
   }
 };
 
-module.exports = { allNucleo, createNucleo, optionsNucleo };
+const updateNucleo = (req, res, next) => {
+  const { dataUpdate, id } = req.body;
+  return updateNucleoDb(id, dataUpdate)
+    .then((nucleoUpdate) =>
+      response(req, res, next, 200, "Actualizacion exitosa", nucleoUpdate)
+    )
+    .catch((error) => {
+      console.error(error);
+      next({ status: 400, message: "Error en el servidor" });
+    });
+};
+
+const deleteNucleo = (req, res, next) => {
+  const { id } = req.body;
+  return deleteNucleoDb(id)
+    .then((nucleoDestroy) =>
+      response(req, res, next, 200, "Nucleo eliminado", nucleoDestroy)
+    )
+    .catch((error) => {
+      console.log(error);
+      next({ status: 404, message: "No se encotro el nucleo" });
+    });
+};
+
+module.exports = {
+  allNucleo,
+  createNucleo,
+  optionsNucleo,
+  updateNucleo,
+  deleteNucleo,
+};

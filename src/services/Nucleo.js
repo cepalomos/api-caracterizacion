@@ -49,8 +49,18 @@ const optionsNucleoDb = () => {
   };
 };
 
+const updateNucleoDb = (id, dataUpdate) => {
+  return Nucleo.update(dataUpdate, { where: { id } });
+};
+
+const deleteNucleoDb = (id) => {
+  return Nucleo.destroy({ where: { id } });
+};
+
 module.exports = {
   allNucleoDb,
   createNucleoDb,
   optionsNucleoDb,
+  updateNucleoDb,
+  deleteNucleoDb,
 };
