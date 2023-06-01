@@ -93,13 +93,13 @@ module.exports = (sequelize) => {
         validate: {
           isIn: [
             [
-              "Campesino agrícola",
+              "Campesino agricola",
               "Campesino pecuario",
               "Campesino mixto",
               "Campesino piscícola",
-              "Jornal",
+              "jornal",
               "Campesino y jornal",
-              "Empleado público",
+              "Empleado publico",
               "Madre comunitaria",
               "Ama de casa",
               "Comerciante",
@@ -127,7 +127,7 @@ module.exports = (sequelize) => {
           isIn: [["contributivo", "subsidiado"]],
         },
       },
-      ispension: {
+      isPension: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },
