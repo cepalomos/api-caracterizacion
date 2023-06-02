@@ -52,7 +52,7 @@ const { User, Nucleo } = sequelize.models;
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
 
-Nucleo.hasMany(User);
+Nucleo.hasMany(User, { onDelete: 'CASCADE', });
 User.belongsTo(Nucleo);
 
 

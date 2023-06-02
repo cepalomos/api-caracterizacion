@@ -1,7 +1,12 @@
 const { User } = require('../db');
 
-const createUserBb = (data) => {
-    return User.create(data);
+const createUserBb = (idNucleo, data) => {
+    return User.create(data)
+        .then(user => user.setNucleo(idNucleo));
 }
 
-module.exports = { createUserBb }
+const getUserBd = () => {
+    return User.findAll();
+}
+
+module.exports = { createUserBb, getUserBd }
