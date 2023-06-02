@@ -5,8 +5,8 @@ const createUserBb = (idNucleo, data) => {
         .then(user => user.setNucleo(idNucleo));
 }
 
-const getUserBd = () => {
-    return User.findAll();
+const getUsersNucleoBd = (idNucleo) => {
+    return User.findAll({ where: { nucleoId: idNucleo } });
 }
 
-module.exports = { createUserBb, getUserBd }
+module.exports = { createUserBb, getUsersNucleoBd }

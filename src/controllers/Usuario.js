@@ -1,5 +1,5 @@
 const { response } = require("../response/response");
-const { createUserBb, getUserBd } = require("../services/Usuario");
+const { createUserBb, getUsersNucleoBd } = require("../services/Usuario");
 
 
 const userCreate = (req, res, next) => {
@@ -12,8 +12,9 @@ const userCreate = (req, res, next) => {
         });
 };
 
-const getAllUser = (req, res, next) => {
-    return getUserBd()
+const getAllUserNucleo = (req, res, next) => {
+    const { id } = req.body;
+    return getUsersNucleoBd(id)
         .then(users => response(req, res, next, 200, "Usuarios", users))
         .catch(error => {
             console.error(error);
@@ -21,4 +22,4 @@ const getAllUser = (req, res, next) => {
         })
 };
 
-module.exports = { userCreate, getAllUser };
+module.exports = { userCreate, getAllUserNucleo };
