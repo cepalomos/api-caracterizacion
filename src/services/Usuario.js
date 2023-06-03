@@ -9,4 +9,12 @@ const getUsersNucleoBd = (idNucleo) => {
     return User.findAll({ where: { nucleoId: idNucleo } });
 }
 
-module.exports = { createUserBb, getUsersNucleoBd }
+const updateUserDb = (id, dataUpdate) => {
+    return User.update(dataUpdate, { where: { id } });
+};
+
+const deleteUserDb = (id) => {
+    return User.destroy({ where: { id } });
+};
+
+module.exports = { createUserBb, getUsersNucleoBd, updateUserDb, deleteUserDb }

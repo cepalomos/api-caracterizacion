@@ -1,5 +1,5 @@
 const { response } = require("../response/response");
-const { createUserBb, getUsersNucleoBd } = require("../services/Usuario");
+const { createUserBb, getUsersNucleoBd, updateUserDb, deleteUserDb } = require("../services/Usuario");
 
 
 const userCreate = (req, res, next) => {
@@ -22,4 +22,28 @@ const getAllUserNucleo = (req, res, next) => {
         })
 };
 
-module.exports = { userCreate, getAllUserNucleo };
+const updateUser = (req, res, next) => {
+    const { dataUpdate, id } = req.body;
+    return updateUserDb(id, dataUpdate)
+        .then((userUpdate) =>
+            response(req, res, next, 200, "Actualizacion exitosa", userUpdate)
+        )
+        .catch((error) => {
+            console.error(error);
+            next({ status: 400, message: "Error en el servidor" });
+        });
+};
+
+const deleteUser = (req, res, next) => {
+    const { id } = req.body;
+    return deleteUserDb(id)
+        .then((userDestroy) =>
+            response(req, res, next, 200, "Nucleo eliminado", userDestroy)
+        )
+        .catch((error) => {
+            console.log(error);
+            next({ status: 404, message: "No se encotro el usuario" });
+        });
+};
+
+module.exports = { userCreate, getAllUserNucleo, updateUser, deleteUser };
