@@ -1,5 +1,5 @@
 const { response } = require("../response/response");
-const { createUserBb, getUsersNucleoBd, updateUserDb, deleteUserDb } = require("../services/Usuario");
+const { createUserBb, getUsersNucleoBd, updateUserDb, deleteUserDb, optionsUsersDb } = require("../services/Usuario");
 
 
 const userCreate = (req, res, next) => {
@@ -46,4 +46,21 @@ const deleteUser = (req, res, next) => {
         });
 };
 
-module.exports = { userCreate, getAllUserNucleo, updateUser, deleteUser };
+const optionsUsers = (req, res, next) => {
+    try {
+        const options = optionsUsersDb();
+        return response(
+            req,
+            res,
+            next,
+            200,
+            "opciones de campos de base de datos",
+            options
+        );
+    } catch (error) {
+        console.error(error);
+        next({ status: 500, message: "Error desconocido en la base datos" });
+    }
+};
+
+module.exports = { userCreate, getAllUserNucleo, updateUser, deleteUser, optionsUsers };

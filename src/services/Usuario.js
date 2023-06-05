@@ -1,12 +1,12 @@
 const { User } = require('../db');
 
-const createUserBb = (idNucleo, data) => {
+const createUserBb = (idUser, data) => {
     return User.create(data)
-        .then(user => user.setNucleo(idNucleo));
+        .then(user => user.setUser(idUser));
 }
 
-const getUsersNucleoBd = (idNucleo) => {
-    return User.findAll({ where: { nucleoId: idNucleo } });
+const getUsersUserBd = (idUser) => {
+    return User.findAll({ where: { UserId: idUser } });
 }
 
 const updateUserDb = (id, dataUpdate) => {
@@ -17,4 +17,14 @@ const deleteUserDb = (id) => {
     return User.destroy({ where: { id } });
 };
 
-module.exports = { createUserBb, getUsersNucleoBd, updateUserDb, deleteUserDb }
+const optionsUsersDb = () => {
+    return ({
+        sexo: User.rawAttributes.sexo.validate.isIn[0],
+        estudio: User.rawAttributes.estudio.validate.isIn[0],
+        etnia: User.rawAttributes.etnia.validate.isIn[0],
+        actividad: User.rawAttributes.actividad.validate.isIn[0],
+        salud: User.rawAttributes.salud.validate.isIn[0],
+    });
+};
+
+module.exports = { createUserBb, getUsersUserBd, updateUserDb, deleteUserDb, optionsUsersDb }
