@@ -1,10 +1,10 @@
 const rural = require('../public/rural');
-const urbano = require('../public/urbano');
+const urbana = require('../public/urbano');
 const { response } = require('../response/response');
 
 const optionsRuralUrbano = (req, res, next) => {
     try {
-        const options = { rural, urbano };
+        const options = { rural, urbana };
         return response(
             req,
             res,

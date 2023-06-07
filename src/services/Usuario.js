@@ -2,7 +2,7 @@ const { User } = require('../db');
 
 const createUserBb = (idUser, data) => {
     return User.create(data)
-        .then(user => user.setUser(idUser));
+        .then(user => user.setNucleo(idUser));
 }
 
 const getUsersUserBd = (idUser) => {
