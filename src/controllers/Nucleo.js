@@ -9,7 +9,14 @@ const {
 
 const allNucleo = (req, res, next) => {
   const { zona, corregimiento, vereda } = req.query;
-  return allNucleoDb(zona, corregimiento, vereda)
+  const decCorregimiento = decodeURIComponent(corregimiento);
+  let decVereda;
+  if (!vereda) {
+    decVereda = "ninguna"
+  } else {
+    decVereda = decodeURIComponent(vereda);
+  }
+  return allNucleoDb(zona, decCorregimiento, decVereda)
     .then((nucleos) => {
       if (!nucleos.length) {
         throw { status: 404, message: "No hay datos en la base de datos" };

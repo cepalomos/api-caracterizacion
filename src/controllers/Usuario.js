@@ -1,5 +1,5 @@
 const { response } = require("../response/response");
-const { createUserBb, getUsersNucleoBd, updateUserDb, deleteUserDb, optionsUsersDb } = require("../services/Usuario");
+const { createUserBb, getUserBd, updateUserDb, deleteUserDb, optionsUsersDb, allUserForDb } = require("../services/Usuario");
 
 
 const userCreate = (req, res, next) => {
@@ -12,9 +12,9 @@ const userCreate = (req, res, next) => {
         });
 };
 
-const getAllUserNucleo = (req, res, next) => {
+const userForId = (req, res, next) => {
     const { id } = req.body;
-    return getUsersNucleoBd(id)
+    return getUserBd(id)
         .then(users => response(req, res, next, 200, "Usuarios", users))
         .catch(error => {
             console.error(error);
@@ -63,4 +63,16 @@ const optionsUsers = (req, res, next) => {
     }
 };
 
-module.exports = { userCreate, getAllUserNucleo, updateUser, deleteUser, optionsUsers };
+const allUserForNucleo = (req, res, next) => {
+    const { idNucleo } = req.body;
+    allUserForDb(idNucleo)
+        .then(allUser => {
+            return response(req, res, next, 200, "Usuarios en el nucleo", allUser)
+        })
+        .catch(error => {
+            console.error(error);
+            next({ status: 500, message: "Error en la base de datos " })
+        })
+}
+
+module.exports = { userCreate, userForId, updateUser, deleteUser, optionsUsers, allUserForNucleo };

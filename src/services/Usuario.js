@@ -5,7 +5,7 @@ const createUserBb = (idUser, data) => {
         .then(user => user.setNucleo(idUser));
 }
 
-const getUsersUserBd = (idUser) => {
+const getUserBd = (idUser) => {
     return User.findAll({ where: { UserId: idUser } });
 }
 
@@ -27,4 +27,8 @@ const optionsUsersDb = () => {
     });
 };
 
-module.exports = { createUserBb, getUsersUserBd, updateUserDb, deleteUserDb, optionsUsersDb }
+const allUserForDb = (idNucleo) => {
+    return User.findAll({ where: { nucleoId: idNucleo } });
+}
+
+module.exports = { createUserBb, getUserBd, updateUserDb, deleteUserDb, optionsUsersDb, allUserForDb }
