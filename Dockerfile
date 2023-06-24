@@ -1,5 +1,5 @@
-# Usa la imagen oficial de Node.js v18
-FROM node:18
+# Usa la imagen oficial de Node.js v16
+FROM node:16
 
 # Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
