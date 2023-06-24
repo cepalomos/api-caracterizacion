@@ -7,10 +7,11 @@ const urlFront = process.env.FRONT_URL ?? "http://localhost:3000";
 const server = express();
 
 server.use(express.json());
-server.use(cors({
-  origin: urlFront, // Reemplaza con la URL del frontend
-  credentials: true
-}));
+server.use(cors());
+// server.use(cors({
+//   origin: urlFront, // Reemplaza con la URL del frontend
+//   credentials: true
+// }));
 server.use("/", routes);
 
 server.use(responseError);
