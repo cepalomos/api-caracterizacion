@@ -64,7 +64,7 @@ const optionsUsers = (req, res, next) => {
 };
 
 const allUserForNucleo = (req, res, next) => {
-    const { idNucleo } = req.body;
+    const { idNucleo } = req.query;
     allUserForDb(idNucleo)
         .then(allUser => {
             return response(req, res, next, 200, "Usuarios en el nucleo", allUser)
