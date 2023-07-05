@@ -1,4 +1,4 @@
-const { User } = require('../db');
+const { User, conn: sequelize } = require('../db');
 
 const createUserBb = (idUser, data) => {
     return User.create(data)
@@ -31,4 +31,45 @@ const allUserForDb = (idNucleo) => {
     return User.findAll({ where: { nucleoId: idNucleo } });
 }
 
-module.exports = { createUserBb, getUserBd, updateUserDb, deleteUserDb, optionsUsersDb, allUserForDb }
+const ageism = () => {
+
+    return User.findAll({
+        attributes: [
+            [sequelize.literal("CASE WHEN edad < 18 THEN 'Menores de 18' WHEN edad < 30 THEN '18-29' WHEN edad < 40 THEN '30-39' WHEN edad < 50 THEN '40-49' ELSE 'Mayores de 50' END"), "rango_edad"],
+            [sequelize.fn("COUNT", sequelize.col("id")), "cantidad"]
+        ],
+        group: "rango_edad"
+    })
+}
+
+const sexoism = () => {
+    return User.findAll({
+        attributes: [
+            "sexo",
+            [sequelize.fn("COUNT", sequelize.col("id")), "cantidad"]
+        ],
+        group: "sexo"
+    });
+};
+
+const studyism = () => {
+    return User.findAll({
+        attributes: [
+            "estudio",
+            [sequelize.fn("COUNT", sequelize.col("id")), "cantidad"]
+        ],
+        group: "estudio"
+    })
+};
+
+const ethnicism = () => {
+    return User.findAll({
+        attributes: [
+            "etnia",
+            [sequelize.fn("COUNT", sequelize.col("id")), "cantidad"]
+        ],
+        group: "etnia"
+    })
+};
+
+module.exports = { createUserBb, getUserBd, updateUserDb, deleteUserDb, optionsUsersDb, allUserForDb, ageism, sexoism, studyism, ethnicism }

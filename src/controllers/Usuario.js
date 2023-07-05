@@ -1,5 +1,5 @@
 const { response } = require("../response/response");
-const { createUserBb, getUserBd, updateUserDb, deleteUserDb, optionsUsersDb, allUserForDb } = require("../services/Usuario");
+const { createUserBb, getUserBd, updateUserDb, deleteUserDb, optionsUsersDb, allUserForDb, ageism, sexoism, studyism, ethnicism } = require("../services/Usuario");
 
 
 const userCreate = (req, res, next) => {
@@ -75,4 +75,67 @@ const allUserForNucleo = (req, res, next) => {
         })
 }
 
-module.exports = { userCreate, userForId, updateUser, deleteUser, optionsUsers, allUserForNucleo };
+const ageismController = (req, res, next) => {
+    ageism()
+        .then(results => {
+            if (results.length) {
+                const formatData = results.map(({ dataValues }) => ({ [dataValues.rango_edad]: parseInt(dataValues.cantidad) }))
+                return response(req, res, next, 200, "Usuarios por edad", formatData)
+            } else {
+                throw { status: 404, message: "No hay datos en la base de datos" }
+            }
+        }).catch(error => {
+            console.error("Error al obtener los usuarios por rango de edad:", error);
+            next(error);
+        });
+}
+
+const sexoismController = (req, res, next) => {
+    sexoism()
+        .then(results => {
+            if (results.length) {
+                const formatData = results.map(({ dataValues }) => ({ [dataValues.sexo]: parseInt(dataValues.cantidad) }));
+                return response(req, res, next, 200, "Usuarios por sexo", formatData)
+            } else {
+                throw { status: 404, message: "No hay datos en la base de datos" }
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            next(error);
+        })
+};
+
+const studyismController = (req, res, next) => {
+    studyism()
+        .then(results => {
+            if (results.length) {
+                const formatData = results.map(({ dataValues }) => ({ [dataValues.estudio]: parseInt(dataValues.cantidad) }));
+                return response(req, res, next, 200, "Usuarios por estudio", formatData)
+            } else {
+                throw { status: 404, message: "No hay datos en la base de datos" }
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            next(error);
+        })
+};
+
+const ethnicismController = (req, res, next) => {
+    ethnicism()
+        .then(results => {
+            if (results.length) {
+                const formatData = results.map(({ dataValues }) => ({ [dataValues.etnia]: parseInt(dataValues.cantidad) }));
+                return response(req, res, next, 200, "Usuarios por etnia", formatData)
+            } else {
+                throw { status: 404, message: "No hay datos en la base de datos" }
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            next(error);
+        })
+};
+
+module.exports = { userCreate, userForId, updateUser, deleteUser, optionsUsers, allUserForNucleo, ageismController, sexoismController, studyismController, ethnicismController };
