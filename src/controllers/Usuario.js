@@ -1,5 +1,6 @@
 const { response } = require("../response/response");
-const { createUserBb, getUserBd, updateUserDb, deleteUserDb, optionsUsersDb, allUserForDb, ageism, sexoism, studyism, ethnicism } = require("../services/Usuario");
+const { createUserBb, getUserBd, updateUserDb, deleteUserDb, optionsUsersDb, allUserForDb, ageism, sexoism, studyism, ethnicism, allTableUser } = require("../services/Usuario");
+const createCvs  = require("../utils/cvs");
 
 
 const userCreate = (req, res, next) => {
@@ -138,4 +139,24 @@ const ethnicismController = (req, res, next) => {
         })
 };
 
-module.exports = { userCreate, userForId, updateUser, deleteUser, optionsUsers, allUserForNucleo, ageismController, sexoismController, studyismController, ethnicismController };
+const generateCvs = (req, res, next) => {
+    allTableUser()
+        .then(users => {
+            createCvs(users);
+        })
+        .then(() => {
+            const csvFilePath = "usuarios.csv";
+
+            // Descargar el archivo CSV
+            res.download(csvFilePath, "usuarios.csv", err => {
+                if (err) {
+                    console.error("Error al descargar el archivo CSV:", err);
+                } else {
+                    console.log("Archivo CSV descargado exitosamente");
+                }
+            });
+        })
+        .catch(error => { console.error(error); next({ "status": 500, "message": "error desconocido" }) });
+};
+
+module.exports = { userCreate, userForId, updateUser, deleteUser, optionsUsers, allUserForNucleo, ageismController, sexoismController, studyismController, ethnicismController, generateCvs };

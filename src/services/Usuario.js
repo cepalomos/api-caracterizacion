@@ -1,5 +1,9 @@
 const { User, conn: sequelize } = require('../db');
 
+const allTableUser = ()=>{
+    return User.findAll();
+}
+
 const createUserBb = (idUser, data) => {
     return User.create(data)
         .then(user => user.setNucleo(idUser));
@@ -72,4 +76,4 @@ const ethnicism = () => {
     })
 };
 
-module.exports = { createUserBb, getUserBd, updateUserDb, deleteUserDb, optionsUsersDb, allUserForDb, ageism, sexoism, studyism, ethnicism }
+module.exports = { createUserBb, getUserBd, updateUserDb, deleteUserDb, optionsUsersDb, allUserForDb, ageism, sexoism, studyism, ethnicism,allTableUser }
