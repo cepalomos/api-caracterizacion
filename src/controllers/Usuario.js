@@ -1,5 +1,5 @@
 const { response } = require("../response/response");
-const { createUserBb, getUserBd, updateUserDb, deleteUserDb, optionsUsersDb, allUserForDb, ageism, sexoism, studyism, ethnicism, allTableUser } = require("../services/Usuario");
+const { createUserBb, getUserBd, updateUserDb, deleteUserDb, optionsUsersDb, allUserForDb, ageism, sexoism, studyism, ethnicism, allTableUser, activityism, salarism } = require("../services/Usuario");
 const createCvs  = require("../utils/cvs");
 
 
@@ -159,4 +159,36 @@ const generateCvs = (req, res, next) => {
         .catch(error => { console.error(error); next({ "status": 500, "message": "error desconocido" }) });
 };
 
-module.exports = { userCreate, userForId, updateUser, deleteUser, optionsUsers, allUserForNucleo, ageismController, sexoismController, studyismController, ethnicismController, generateCvs };
+const activityismController = (req, res, next) => {
+    activityism()
+        .then(results => {
+            if (results.length) {
+                const formatData = results.map(({ dataValues }) => ({ [dataValues.actividad]: parseInt(dataValues.cantidad) }));
+                return response(req, res, next, 200, "Usuarios por actividad", formatData)
+            } else {
+                throw { status: 404, message: "No hay datos en la base de datos" }
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            next(error);
+        })
+};
+
+const salarismController = (req, res, next) => {
+    salarism()
+        .then(results => {
+            if (results.length) {
+                const formatData = results.map(({ dataValues }) => ({ [dataValues.rango_salario]: parseInt(dataValues.cantidad) }));
+                return response(req, res, next, 200, "Usuarios por etnia", formatData)
+            } else {
+                throw { status: 404, message: "No hay datos en la base de datos" }
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            next(error);
+        })
+};
+
+module.exports = { userCreate, userForId, updateUser, deleteUser, optionsUsers, allUserForNucleo, ageismController, sexoismController, studyismController, ethnicismController, generateCvs, activityismController, salarismController };

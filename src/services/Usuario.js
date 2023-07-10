@@ -1,6 +1,6 @@
 const { User, conn: sequelize } = require('../db');
 
-const allTableUser = ()=>{
+const allTableUser = () => {
     return User.findAll();
 }
 
@@ -76,4 +76,24 @@ const ethnicism = () => {
     })
 };
 
-module.exports = { createUserBb, getUserBd, updateUserDb, deleteUserDb, optionsUsersDb, allUserForDb, ageism, sexoism, studyism, ethnicism,allTableUser }
+const activityism = () => {
+    return User.findAll({
+        attributes: [
+            "actividad",
+            [sequelize.fn("COUNT", sequelize.col("id")), "cantidad"]
+        ],
+        group: "actividad"
+    })
+};
+
+const salarism = () => {
+
+    return User.findAll({
+        attributes: [
+            [sequelize.literal("CASE WHEN salario < 1160000 THEN 'Menos de salario minimo' WHEN salario < 2320000 THEN 'Entre 1 y 2 salarios' WHEN salario < 3480000 THEN 'entre 2 y 3 salarios' WHEN salario < 4640000 THEN 'entre 3 y 4 salarios' ELSE 'Mas de 4 salarios' END"), "rango_salario"],
+            [sequelize.fn("COUNT", sequelize.col("id")), "cantidad"]
+        ],
+        group: "rango_salario"
+    })
+}
+module.exports = { createUserBb, activityism, getUserBd, updateUserDb, deleteUserDb, optionsUsersDb, allUserForDb, ageism, sexoism, studyism, ethnicism, allTableUser, salarism }
