@@ -1,4 +1,4 @@
-const { promises: { writeFile, rmdir, mkdir } } = require('fs');
+const { promises: { writeFile, mkdir, access } } = require('fs');
 
 function createCvs(users) {
   return new Promise((resolve, reject) => {
@@ -13,19 +13,29 @@ function createCvs(users) {
 
     const directoryPath = 'download';
 
-    rmdir(directoryPath, { recursive: true }) // Elimina el directorio existente
-      .then(() => mkdir(directoryPath)) // Crea el directorio nuevamente
+    const checkDirectory = async (path) => {
+      try {
+        await access(path);
+        console.log('El directorio ya existe');
+      } catch (error) {
+        console.log('El directorio no existe, se creará');
+        await mkdir(path);
+      }
+    };
+
+    checkDirectory(directoryPath)
       .then(() => writeFile(`${directoryPath}/data.csv`, csvContent)) // Genera archivo CSV
       .then(() => writeFile(`${directoryPath}/data.json`, JSON.stringify(users))) // Genera archivo JSON
       .then(() => {
-        console.log('File generated successfully, open download to check');
+        console.log('Archivo generado exitosamente, abre la carpeta "download" para verificar');
         resolve();
       })
       .catch((error) => {
-        console.error('Error generating files:', error);
+        console.error('Error al generar los archivos:', error);
         reject(error);
       });
   });
 }
 
 module.exports = createCvs;
+
