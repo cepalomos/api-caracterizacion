@@ -5,7 +5,9 @@ const {
   optionsNucleoDb,
   updateNucleoDb,
   deleteNucleoDb,
+  allTableNucleo,
 } = require("../services/Nucleo");
+const createCvs = require("../utils/cvs");
 
 const allNucleo = (req, res, next) => {
   const { zona, corregimiento, vereda } = req.query;
@@ -84,10 +86,33 @@ const deleteNucleo = (req, res, next) => {
     });
 };
 
+const generateCvsNucleo = (req, res, next) => {
+  allTableNucleo()
+    .then(cores => {
+      return createCvs(cores);
+    })
+    .then(() => {
+      const csvFilePath = "download/data.csv";
+
+      // Descargar el archivo CSV
+      res.download(csvFilePath, "nucleo.csv", err => {
+        if (err) {
+          console.error("Error al descargar el archivo CSV:", err);
+        } else {
+          console.log("Archivo CSV descargado exitosamente");
+        }
+      });
+    })
+    .catch(error => {
+      console.error(error);
+      next({ "status": 500, "message": "Error desconocido" });
+    });
+};
 module.exports = {
   allNucleo,
   createNucleo,
   optionsNucleo,
   updateNucleo,
   deleteNucleo,
+  generateCvsNucleo,
 };

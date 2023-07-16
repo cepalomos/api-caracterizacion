@@ -57,10 +57,22 @@ const deleteNucleoDb = (id) => {
   return Nucleo.destroy({ where: { id } });
 };
 
+const allTableNucleo = () => {
+  return Nucleo.findAll()
+      .then(nucleo => {
+          if (nucleo.length) {
+              return nucleo.map(({ dataValues }) => dataValues);
+          } else {
+              throw new Error("No hay datos en la base datos");
+          }
+      });
+}
+
 module.exports = {
   allNucleoDb,
   createNucleoDb,
   optionsNucleoDb,
   updateNucleoDb,
   deleteNucleoDb,
+  allTableNucleo,
 };
