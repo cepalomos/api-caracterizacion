@@ -1,7 +1,14 @@
 const { User, conn: sequelize } = require('../db');
 
 const allTableUser = () => {
-    return User.findAll();
+    return User.findAll()
+        .then(user=>{
+            if(user.length){
+                return user.map(({dataValues})=>dataValues);
+            }else{
+                throw new Error("No hay datos en la base datos");
+            }
+        });
 }
 
 const createUserBb = (idUser, data) => {

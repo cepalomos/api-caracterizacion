@@ -1,6 +1,6 @@
 const { response } = require("../response/response");
 const { createUserBb, getUserBd, updateUserDb, deleteUserDb, optionsUsersDb, allUserForDb, ageism, sexoism, studyism, ethnicism, allTableUser, activityism, salarism } = require("../services/Usuario");
-const createCvs  = require("../utils/cvs");
+const createCvs = require("../utils/cvs");
 
 
 const userCreate = (req, res, next) => {
@@ -142,10 +142,10 @@ const ethnicismController = (req, res, next) => {
 const generateCvs = (req, res, next) => {
     allTableUser()
         .then(users => {
-            createCvs(users);
+            return createCvs(users);
         })
         .then(() => {
-            const csvFilePath = "usuarios.csv";
+            const csvFilePath = "download/data.csv";
 
             // Descargar el archivo CSV
             res.download(csvFilePath, "usuarios.csv", err => {
@@ -156,8 +156,12 @@ const generateCvs = (req, res, next) => {
                 }
             });
         })
-        .catch(error => { console.error(error); next({ "status": 500, "message": "error desconocido" }) });
+        .catch(error => {
+            console.error(error);
+            next({ "status": 500, "message": "Error desconocido" });
+        });
 };
+
 
 const activityismController = (req, res, next) => {
     activityism()
