@@ -2,10 +2,10 @@ const { User, conn: sequelize } = require('../db');
 
 const allTableUser = () => {
     return User.findAll()
-        .then(user=>{
-            if(user.length){
-                return user.map(({dataValues})=>dataValues);
-            }else{
+        .then(user => {
+            if (user.length) {
+                return user.map(({ dataValues }) => dataValues);
+            } else {
                 throw new Error("No hay datos en la base datos");
             }
         });
@@ -103,4 +103,40 @@ const salarism = () => {
         group: "rango_salario"
     })
 }
-module.exports = { createUserBb, activityism, getUserBd, updateUserDb, deleteUserDb, optionsUsersDb, allUserForDb, ageism, sexoism, studyism, ethnicism, allTableUser, salarism }
+
+const pensionism = () => {
+    return User.findAll({
+        attributes: [
+            "isPension",
+            [sequelize.fn("COUNT", sequelize.col("id")), "cantidad"]
+        ],
+        group: "isPension"
+    })
+        .then(result => result.map(({ dataValues }) => dataValues))
+}
+
+const discapacitadoism = () => {
+    return User.findAll({
+        attributes: [
+            "isDiscapacitado",
+            [sequelize.fn("COUNT", sequelize.col("id")), "cantidad"]
+        ],
+        group: "isDiscapacitado"
+    })
+        .then(result => result.map(({ dataValues }) => dataValues))
+}
+
+
+
+const victimaism = () => {
+    return User.findAll({
+        attributes: [
+            "isVictima",
+            [sequelize.fn("COUNT", sequelize.col("id")), "cantidad"]
+        ],
+        group: "isVictima"
+    })
+        .then(result => result.map(({ dataValues }) => dataValues))
+}
+
+module.exports = { createUserBb, activityism, getUserBd, updateUserDb, deleteUserDb, optionsUsersDb, allUserForDb, ageism, sexoism, studyism, ethnicism, allTableUser, salarism, pensionism,discapacitadoism,victimaism }

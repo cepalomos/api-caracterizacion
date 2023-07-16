@@ -1,5 +1,5 @@
 const { response } = require("../response/response");
-const { createUserBb, getUserBd, updateUserDb, deleteUserDb, optionsUsersDb, allUserForDb, ageism, sexoism, studyism, ethnicism, allTableUser, activityism, salarism } = require("../services/Usuario");
+const { createUserBb, getUserBd, updateUserDb, deleteUserDb, optionsUsersDb, allUserForDb, ageism, sexoism, studyism, ethnicism, allTableUser, activityism, salarism, pensionism, discapacitadoism, victimaism } = require("../services/Usuario");
 const createCvs = require("../utils/cvs");
 
 
@@ -195,4 +195,51 @@ const salarismController = (req, res, next) => {
         })
 };
 
-module.exports = { userCreate, userForId, updateUser, deleteUser, optionsUsers, allUserForNucleo, ageismController, sexoismController, studyismController, ethnicismController, generateCvs, activityismController, salarismController };
+const pensionismController = (req, res, next) => {
+    pensionism()
+        .then(results => {
+            if (results.length) {
+                const formatData = results.map(({ isPension, cantidad }) => ({ [isPension ? "Si" : "No"]: parseInt(cantidad) }));
+                return response(req, res, next, 200, "Usuarios por pension", formatData)
+            } else {
+                throw { status: 404, message: "No hay datos en la base de datos" }
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            next(error);
+        })
+}
+
+const discapacitadoismController = (req, res, next) => {
+    discapacitadoism()
+        .then(results => {
+            if (results.length) {
+                const formatData = results.map(({ isDiscapacitado, cantidad }) => ({ [isDiscapacitado ? "Si" : "No"]: parseInt(cantidad) }));
+                return response(req, res, next, 200, "Usuarios por discapacitado", formatData)
+            } else {
+                throw { status: 404, message: "No hay datos en la base de datos" }
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            next(error);
+        })
+}
+const victimaismController = (req, res, next) => {
+    victimaism()
+        .then(results => {
+            if (results.length) {
+                const formatData = results.map(({ isVictima, cantidad }) => ({ [isVictima ? "Si" : "No"]: parseInt(cantidad) }));
+                return response(req, res, next, 200, "Usuarios si son victamas", formatData)
+            } else {
+                throw { status: 404, message: "No hay datos en la base de datos" }
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            next(error);
+        })
+}
+
+module.exports = { userCreate, userForId, updateUser, deleteUser, optionsUsers, allUserForNucleo, ageismController, sexoismController, studyismController, ethnicismController, generateCvs, activityismController, salarismController, pensionismController, discapacitadoismController, victimaismController };
