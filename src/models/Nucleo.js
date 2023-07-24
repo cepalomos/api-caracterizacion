@@ -179,7 +179,7 @@ module.exports = (sequelize) => {
             "la entierran",
             "la queman",
             "disponen de lugar donde la echan",
-            "hacen clasificación de residuos",
+            "hacen clasificacion de residuos",
           ],
         ],
       },

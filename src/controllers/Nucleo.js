@@ -18,6 +18,7 @@ const allNucleo = (req, res, next) => {
   } else {
     decVereda = decodeURIComponent(vereda);
   }
+  console.log(decVereda,decCorregimiento);
   return allNucleoDb(zona, decCorregimiento, decVereda)
     .then((nucleos) => {
       if (!nucleos.length) {

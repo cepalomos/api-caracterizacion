@@ -3,6 +3,7 @@ const { userCreate, userForId, allUserForNucleo, updateUser, deleteUser, options
 const router = Router();
 
 router.route("/").post(userCreate).get(userForId).put(updateUser).delete(deleteUser);
+// router.route("/:id").delete(deleteUser);
 router.route("/opciones").get(optionsUsers);
 router.route("/nucleo").get(allUserForNucleo);
 router.route("/graph/edad").get(ageismController);
