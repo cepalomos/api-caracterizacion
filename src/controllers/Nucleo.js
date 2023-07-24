@@ -11,12 +11,12 @@ const createCvs = require("../utils/cvs");
 
 const allNucleo = (req, res, next) => {
   const { zona, corregimiento, vereda } = req.query;
-  const decCorregimiento = decodeURIComponent(corregimiento);
-  let decVereda;
-  if (!vereda) {
-    decVereda = "ninguna"
+  const decVereda = decodeURIComponent(vereda);
+  let decCorregimiento;
+  if (!corregimiento) {
+    decCorregimiento = "ninguna"
   } else {
-    decVereda = decodeURIComponent(vereda);
+    decCorregimiento = decodeURIComponent(corregimiento);
   }
   console.log(decVereda,decCorregimiento);
   return allNucleoDb(zona, decCorregimiento, decVereda)

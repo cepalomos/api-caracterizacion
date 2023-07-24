@@ -3,7 +3,7 @@ const { Nucleo } = require("../db");
 const allNucleoDb = (
   zonaParam,
   corregimientoParam,
-  veredaParam = "ninguna"
+  veredaParam
 ) => {
   return Nucleo.findAll({
     where: {
